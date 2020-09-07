@@ -161,6 +161,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     @IBAction func settingsBtnClicked(_ sender: Any) {
         settingsView.isHidden = false
+        ipTextView.becomeFirstResponder()
     }
     
     @IBAction func settingsOkClicked(_ sender: Any) {

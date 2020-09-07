@@ -10,11 +10,6 @@
 		144976C62503C9A500CF9AFD /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144976C52503C9A500CF9AFD /* Request.swift */; };
 		145638CA2405B3FC00CDF45A /* KallaxLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145638C92405B3FC00CDF45A /* KallaxLayout.swift */; };
 		14657670242121BC00FC6CF2 /* PickerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1465766F242121BC00FC6CF2 /* PickerMode.swift */; };
-		1465767724213CEB00FC6CF2 /* SwiftHSVColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1465767224213CEA00FC6CF2 /* SwiftHSVColorPicker.swift */; };
-		1465767824213CEB00FC6CF2 /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1465767324213CEA00FC6CF2 /* ColorUtils.swift */; };
-		1465767924213CEB00FC6CF2 /* BrightnessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1465767424213CEA00FC6CF2 /* BrightnessView.swift */; };
-		1465767A24213CEB00FC6CF2 /* ColorWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1465767524213CEA00FC6CF2 /* ColorWheel.swift */; };
-		1465767B24213CEB00FC6CF2 /* SelectedColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1465767624213CEB00FC6CF2 /* SelectedColorView.swift */; };
 		1465767E242270BC00FC6CF2 /* GradientMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1465767D242270BC00FC6CF2 /* GradientMode.swift */; };
 		14670ABC24082443006CA657 /* Kallax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14670ABB24082443006CA657 /* Kallax.swift */; };
 		14670AC024091A2F006CA657 /* KallaxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14670ABF24091A2F006CA657 /* KallaxCell.swift */; };
@@ -27,6 +22,12 @@
 		14BE681E24048E5F00737D24 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14BE681C24048E5F00737D24 /* LaunchScreen.storyboard */; };
 		14BE682924048E6000737D24 /* leds_sbTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE682824048E6000737D24 /* leds_sbTests.swift */; };
 		14BE683424048E6000737D24 /* leds_sbUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE683324048E6000737D24 /* leds_sbUITests.swift */; };
+		14F677F825064B2D000F4A7B /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F677F225064B2D000F4A7B /* ColorPicker.swift */; };
+		14F677F925064B2D000F4A7B /* BrightnessSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F677F325064B2D000F4A7B /* BrightnessSlider.swift */; };
+		14F677FA25064B2D000F4A7B /* ColorfulEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F677F425064B2D000F4A7B /* ColorfulEntity.swift */; };
+		14F677FB25064B2D000F4A7B /* BrightnessCursor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F677F525064B2D000F4A7B /* BrightnessCursor.swift */; };
+		14F677FC25064B2D000F4A7B /* ColorMapCursor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F677F625064B2D000F4A7B /* ColorMapCursor.swift */; };
+		14F677FD25064B2D000F4A7B /* ColorMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F677F725064B2D000F4A7B /* ColorMapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,11 +51,6 @@
 		144976C52503C9A500CF9AFD /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		145638C92405B3FC00CDF45A /* KallaxLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KallaxLayout.swift; sourceTree = "<group>"; };
 		1465766F242121BC00FC6CF2 /* PickerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerMode.swift; sourceTree = "<group>"; };
-		1465767224213CEA00FC6CF2 /* SwiftHSVColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftHSVColorPicker.swift; sourceTree = "<group>"; };
-		1465767324213CEA00FC6CF2 /* ColorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
-		1465767424213CEA00FC6CF2 /* BrightnessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrightnessView.swift; sourceTree = "<group>"; };
-		1465767524213CEA00FC6CF2 /* ColorWheel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorWheel.swift; sourceTree = "<group>"; };
-		1465767624213CEB00FC6CF2 /* SelectedColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedColorView.swift; sourceTree = "<group>"; };
 		1465767D242270BC00FC6CF2 /* GradientMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientMode.swift; sourceTree = "<group>"; };
 		14670ABB24082443006CA657 /* Kallax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kallax.swift; sourceTree = "<group>"; };
 		14670ABF24091A2F006CA657 /* KallaxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KallaxCell.swift; sourceTree = "<group>"; };
@@ -73,6 +69,12 @@
 		14BE682F24048E6000737D24 /* leds_sbUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = leds_sbUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14BE683324048E6000737D24 /* leds_sbUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = leds_sbUITests.swift; sourceTree = "<group>"; };
 		14BE683524048E6000737D24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		14F677F225064B2D000F4A7B /* ColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
+		14F677F325064B2D000F4A7B /* BrightnessSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrightnessSlider.swift; sourceTree = "<group>"; };
+		14F677F425064B2D000F4A7B /* ColorfulEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorfulEntity.swift; sourceTree = "<group>"; };
+		14F677F525064B2D000F4A7B /* BrightnessCursor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrightnessCursor.swift; sourceTree = "<group>"; };
+		14F677F625064B2D000F4A7B /* ColorMapCursor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorMapCursor.swift; sourceTree = "<group>"; };
+		14F677F725064B2D000F4A7B /* ColorMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorMapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,11 +113,12 @@
 		1465767124213CD500FC6CF2 /* colorWheel */ = {
 			isa = PBXGroup;
 			children = (
-				1465767424213CEA00FC6CF2 /* BrightnessView.swift */,
-				1465767324213CEA00FC6CF2 /* ColorUtils.swift */,
-				1465767524213CEA00FC6CF2 /* ColorWheel.swift */,
-				1465767624213CEB00FC6CF2 /* SelectedColorView.swift */,
-				1465767224213CEA00FC6CF2 /* SwiftHSVColorPicker.swift */,
+				14F677F525064B2D000F4A7B /* BrightnessCursor.swift */,
+				14F677F325064B2D000F4A7B /* BrightnessSlider.swift */,
+				14F677F425064B2D000F4A7B /* ColorfulEntity.swift */,
+				14F677F625064B2D000F4A7B /* ColorMapCursor.swift */,
+				14F677F725064B2D000F4A7B /* ColorMapView.swift */,
+				14F677F225064B2D000F4A7B /* ColorPicker.swift */,
 			);
 			path = colorWheel;
 			sourceTree = "<group>";
@@ -327,21 +330,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14F677FB25064B2D000F4A7B /* BrightnessCursor.swift in Sources */,
 				14BE681924048E5C00737D24 /* leds_sb.xcdatamodeld in Sources */,
-				1465767824213CEB00FC6CF2 /* ColorUtils.swift in Sources */,
+				14F677FA25064B2D000F4A7B /* ColorfulEntity.swift in Sources */,
 				14BE681324048E5C00737D24 /* ViewController.swift in Sources */,
 				14BE680F24048E5C00737D24 /* AppDelegate.swift in Sources */,
+				14F677FD25064B2D000F4A7B /* ColorMapView.swift in Sources */,
 				145638CA2405B3FC00CDF45A /* KallaxLayout.swift in Sources */,
-				1465767724213CEB00FC6CF2 /* SwiftHSVColorPicker.swift in Sources */,
+				14F677F825064B2D000F4A7B /* ColorPicker.swift in Sources */,
+				14F677F925064B2D000F4A7B /* BrightnessSlider.swift in Sources */,
 				14670ABC24082443006CA657 /* Kallax.swift in Sources */,
 				144976C62503C9A500CF9AFD /* Request.swift in Sources */,
-				1465767924213CEB00FC6CF2 /* BrightnessView.swift in Sources */,
+				14F677FC25064B2D000F4A7B /* ColorMapCursor.swift in Sources */,
 				14BE681124048E5C00737D24 /* SceneDelegate.swift in Sources */,
 				14657670242121BC00FC6CF2 /* PickerMode.swift in Sources */,
 				1465767E242270BC00FC6CF2 /* GradientMode.swift in Sources */,
 				14670AC024091A2F006CA657 /* KallaxCell.swift in Sources */,
-				1465767B24213CEB00FC6CF2 /* SelectedColorView.swift in Sources */,
-				1465767A24213CEB00FC6CF2 /* ColorWheel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

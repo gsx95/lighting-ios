@@ -7,7 +7,7 @@
 //
 
 import UIKit
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, ColorChangedDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var settingsView: UIView!
     @IBOutlet weak var btnSettings: UIButton!
@@ -15,7 +15,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var btnSettingsOk: UIButton!
     @IBOutlet weak var leftRightBtn: UIButton!
     @IBOutlet weak var topDownBtn: UIButton!
-    @IBOutlet weak var colorPicker: SwiftHSVColorPicker!
+    @IBOutlet weak var colorPicker: ColorPicker!
     @IBOutlet weak var arrowView: UIView!
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var menuView: UIView!
@@ -54,6 +54,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var colorLastChanged = Date().currentTimeMillis()
     var lastColor: UIColor = UIColor.white
     
+     var colorSpace: HRColorSpace = .sRGB
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         colorView.layer.cornerRadius = self.colorViewCornerRadius;
@@ -63,8 +65,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
         kallax.setView(collectionView: collectionView, cellIdentifier: "cell")
         colorView.center.y += self.colorView.bounds.height
-        colorPicker.setViewColor(UIColor.red)
-        colorPicker.delegate = self
+
+        colorPicker.addTarget(self, action: #selector(self.handleColorChanged(picker:)), for: .valueChanged)
+        colorPicker.set(color: UIColor(displayP3Red: 1.0, green: 1.0, blue: 0, alpha: 1), colorSpace: colorSpace)
+        handleColorChanged(picker: colorPicker)
+        
         leftRightBtn.isHidden = true
         topDownBtn.isHidden = true
         settingsView.isHidden = true
@@ -76,8 +81,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         kallax.calcCells()
     }
     
-    func colorChanged(color: UIColor){
-        changeColor(color: color, immediately: false)
+    @objc func handleColorChanged(picker: ColorPicker) {
+        changeColor(color: picker.color, immediately: false)
     }
     
     func changeKallax(color: UIColor) {

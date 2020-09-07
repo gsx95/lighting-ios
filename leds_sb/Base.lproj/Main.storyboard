@@ -184,10 +184,9 @@
                                             <action selector="doneBtnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xQG-cg-3YT"/>
                                         </connections>
                                     </button>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="49R-NE-VjO" customClass="SwiftHSVColorPicker" customModule="leds_sb" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="49R-NE-VjO" customClass="ColorPicker" customModule="leds_sb" customModuleProvider="target">
                                         <rect key="frame" x="8" y="104" width="358" height="286"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7nH-fh-yzr" userLabel="Grad1">
                                         <rect key="frame" x="107" y="58" width="75" height="38"/>

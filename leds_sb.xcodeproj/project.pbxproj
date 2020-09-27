@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14103BAF252122FB0031505F /* favorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14103BAE252122FB0031505F /* favorites.swift */; };
 		144976C62503C9A500CF9AFD /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144976C52503C9A500CF9AFD /* Request.swift */; };
 		145638CA2405B3FC00CDF45A /* KallaxLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145638C92405B3FC00CDF45A /* KallaxLayout.swift */; };
 		14657670242121BC00FC6CF2 /* PickerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1465766F242121BC00FC6CF2 /* PickerMode.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		14103BAE252122FB0031505F /* favorites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = favorites.swift; sourceTree = "<group>"; };
 		144976C52503C9A500CF9AFD /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		145638C92405B3FC00CDF45A /* KallaxLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KallaxLayout.swift; sourceTree = "<group>"; };
 		1465766F242121BC00FC6CF2 /* PickerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerMode.swift; sourceTree = "<group>"; };
@@ -102,6 +104,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		14103BAD252122DF0031505F /* favorites */ = {
+			isa = PBXGroup;
+			children = (
+				14103BAE252122FB0031505F /* favorites.swift */,
+			);
+			path = favorites;
+			sourceTree = "<group>";
+		};
 		144976C42503C98600CF9AFD /* requests */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +175,7 @@
 		14BE680D24048E5C00737D24 /* leds_sb */ = {
 			isa = PBXGroup;
 			children = (
+				14103BAD252122DF0031505F /* favorites */,
 				144976C42503C98600CF9AFD /* requests */,
 				1465767C2422709800FC6CF2 /* modes */,
 				1465767124213CD500FC6CF2 /* colorWheel */,
@@ -342,6 +353,7 @@
 				14670ABC24082443006CA657 /* Kallax.swift in Sources */,
 				144976C62503C9A500CF9AFD /* Request.swift in Sources */,
 				14F677FC25064B2D000F4A7B /* ColorMapCursor.swift in Sources */,
+				14103BAF252122FB0031505F /* favorites.swift in Sources */,
 				14BE681124048E5C00737D24 /* SceneDelegate.swift in Sources */,
 				14657670242121BC00FC6CF2 /* PickerMode.swift in Sources */,
 				1465767E242270BC00FC6CF2 /* GradientMode.swift in Sources */,

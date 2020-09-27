@@ -7,7 +7,7 @@
 //
 
 import UIKit
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var settingsView: UIView!
     @IBOutlet weak var btnSettings: UIButton!
@@ -26,11 +26,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var btnGradient: UIButton!
     @IBOutlet weak var btnSelectedColoring: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
-
+    
+    @IBOutlet weak var favoritesView: UIView!
+    @IBOutlet weak var favoritesTextfieldView: UIView!
+    @IBOutlet weak var favoritesTable: UITableView!
+    @IBOutlet weak var favoritesNameTextField: UITextField!
+    
     @IBOutlet weak var dot1: UIImageView!
     @IBOutlet weak var dot2: UIImageView!
     @IBOutlet weak var grad2Btn: UIButton!
     @IBOutlet weak var grad1Btn: UIButton!
+    
+
     
     var defaultHost = "http://192.168.2.101:7070"
     
@@ -54,12 +61,21 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var colorLastChanged = Date().currentTimeMillis()
     var lastColor: UIColor = UIColor.white
     
-     var colorSpace: HRColorSpace = .sRGB
+    var colorSpace: HRColorSpace = .sRGB
     
+    let cellReuseIdentifier = "cell"
+    
+    let favoritesViewColorFull = UIColor.init(red: 0.1372, green: 0.1725 , blue: 0.2235, alpha: 1)
+    let favoritesViewColorOpaque = UIColor.init(red: 0.1372, green: 0.1725 , blue: 0.2235, alpha: 0.2)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         colorView.layer.cornerRadius = self.colorViewCornerRadius;
         colorView.layer.masksToBounds = true;
+        favoritesView.layer.cornerRadius = self.colorViewCornerRadius;
+        favoritesView.layer.masksToBounds = true;
+        favoritesTextfieldView.layer.cornerRadius = self.colorViewCornerRadius;
+        favoritesTextfieldView.layer.masksToBounds = true;
         arrowView.isHidden = true
         colorViewDiff = self.colorView.bounds.height - colorViewCornerRadius
         view.backgroundColor = UIColor(patternImage: UIImage(named: "background")!)
@@ -73,8 +89,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         leftRightBtn.isHidden = true
         topDownBtn.isHidden = true
         settingsView.isHidden = true
+        favoritesView.isHidden = true
+        favoritesTextfieldView.isHidden = true
         ipTextView.text = defaultHost
         request.setHost(newHost: defaultHost)
+        
+        favoritesTable.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
+        favoritesTable.delegate = self
+        favoritesTable.dataSource = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -106,18 +128,39 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
     }
     
-    func changeColor(color: UIColor, immediately: Bool = false) {
+    var currentDelayed: DispatchWorkItem? = nil
+    
+    func changeColor(color: UIColor, immediately: Bool = false, delayed: Bool = false) {
+       
         changeKallax(color: color)
         lastColor = color
+        
         if(!applyDirectly) {
             return;
         }
+        
         let now = Date().currentTimeMillis()
         if(!immediately && (now - colorLastChanged < colorChangeInterval)) {
             return;
         }
+        
+        if(currentDelayed != nil) {
+            currentDelayed!.cancel()
+        }
+        
+        if(!delayed){
+            currentDelayed = DispatchWorkItem(block: {
+                self.changeColor(color: color, immediately: false, delayed: true)
+            })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: currentDelayed!)
+        }
         colorLastChanged = now;
         
+        doColorChanging(color: color)
+
+    }
+    
+    func doColorChanging(color: UIColor) {
         switch currentMode {
         case .ALL:
             request.sendFullColor(colorHex: color.toHex()!)
@@ -161,7 +204,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     @IBAction func settingsBtnClicked(_ sender: Any) {
         settingsView.isHidden = false
-        ipTextView.becomeFirstResponder()
+        ipTextView.becomeFirstResponder() 
     }
     
     @IBAction func settingsOkClicked(_ sender: Any) {
@@ -171,10 +214,80 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         settingsView.isHidden = true
     }
     
+    
+    @IBAction func addFavoriteBtnClicked(_ sender: Any) {
+        favoritesTextfieldView.isHidden = false
+        favoritesView.backgroundColor = favoritesViewColorOpaque
+        favoritesNameTextField.becomeFirstResponder()
+    }
+    
+    @IBAction func favoritesBackBtnClicked(_ sender: Any) {
+        favoritesView.isHidden = true
+        menuView.isHidden = false
+    }
+    
+    @IBAction func saveFavoritesBtnClicked(_ sender: Any) {
+        let name = favoritesNameTextField.text!.replacingOccurrences(of: " ", with: "")
+        if(name.isEmpty){
+            return;
+        }
+        for fav in favorites {
+            if(fav.getName() == name) {
+                return;
+            }
+        }
+        favoritesNameTextField.resignFirstResponder()
+        favoritesNameTextField.text = ""
+        favoritesView.backgroundColor = favoritesViewColorFull
+        favoritesTextfieldView.isHidden = true
+        let newFav = Favorite(name: name)
+        self.favorites.insert(newFav, at: 0)
+        self.favoritesTable.beginUpdates()
+        self.favoritesTable.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .automatic)
+        self.favoritesTable.endUpdates()
+    }
+    
+    var favorites: [Favorite] = []
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.favorites.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:UITableViewCell = (self.favoritesTable.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as UITableViewCell?)!
+
+        cell.textLabel?.text = self.favorites[indexPath.row].getName()
+        cell.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0)
+
+        return cell
+    }
+    
+    // method to run when table view cell is tapped
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("You tapped cell number \(indexPath.row).")
+    }
+
+        // this method handles row deletion
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // remove the item from the data model
+            favorites.remove(at: indexPath.row)
+            // delete the table view row
+            favoritesTable.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Not used in our example, but if you were adding a new row, this is where you would do it.
+        }
+    }
+    
+    @IBAction func favoriteBtnClicked(_ sender: Any) {
+        favoritesView.isHidden = false
+        menuView.isHidden = true
+    }
+    
+    
     @IBAction func selectTop(_ sender: Any) {
         kallax.selectTop()
     }
-    
     @IBAction func selectBottom(_ sender: Any) {
         kallax.selectBottom()
     }
@@ -224,7 +337,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         topDownBtn.isHidden = false
     }
     
-     @IBAction func modeClicked(_ sender: Any) {
+    @IBAction func modeClicked(_ sender: Any) {
         currentMode = PickerMode.PATTERN
         showColorPicker()
      }

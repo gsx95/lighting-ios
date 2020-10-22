@@ -1,8 +1,11 @@
 Copyright (c) 2020 Georg Schwarz
+
 All rights reserved.  
 
 [Colorwheel](https://github.com/gsx95/lighting-ios/tree/master/leds_sb/colorWheel) by: Ryota Hayashi,
+
 Copyright (c) 2011 Ryota Hayashi  
+
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without  

@@ -48,8 +48,42 @@ class Kallax: NSObject {
         return cell.num % 4
     }
     
+    func colorCells(encoded: Data) {
+        let decoder = JSONDecoder()
+        let data = try? decoder.decode(Request.ShelfData.self, from: encoded)
+        
+        for (index, cell) in self.rows[0].enumerated() {
+            colorCellByData(cell: cell, data: data!.row4[index])
+        }
+        for (index, cell) in self.rows[1].enumerated() {
+            colorCellByData(cell: cell, data: data!.row3[index])
+        }
+        for (index, cell) in self.rows[2].enumerated() {
+            colorCellByData(cell: cell, data: data!.row2[index])
+        }
+        for (index, cell) in self.rows[3].enumerated() {
+            colorCellByData(cell: cell, data: data!.row1[index])
+        }
+    }
+    
+    func colorCellByData(cell: KallaxCell, data: Request.ShelfBox) {
+        switch data.orig_mode {
+            case "all":
+                cell.color(color: UIColor.fromHex(hex: data.orig_start)!)
+                break
+            case "top_down":
+                cell.gradientTopDown(colors: [UIColor.fromHex(hex: data.orig_start)!, UIColor.fromHex(hex: data.orig_end)!])
+                break
+            case "left_right":
+                cell.gradientLeftRight(colors: [UIColor.fromHex(hex: data.orig_start)!, UIColor.fromHex(hex: data.orig_end)!])
+                break
+            default:
+                break;
+        }
+    }
+    
     func colorCellsGradient(color1: UIColor, color2: UIColor, mode: GradientMode) {
-        var grads: [[CGColor]] = []
+        var grads: [[UIColor]] = []
         
         var minNum = 4
         var maxNum = -1
@@ -74,31 +108,31 @@ class Kallax: NSObject {
             let c3 = color1.toColor(color2, percentage: 0.5)
             let c4 = color1.toColor(color2, percentage: 0.75)
             let c5 = color2
-            let g1 = [c1.cgColor, c2.cgColor]
-            let g2 = [c2.cgColor, c3.cgColor]
-            let g3 = [c3.cgColor, c4.cgColor]
-            let g4 = [c4.cgColor, c5.cgColor]
+            let g1 = [c1, c2]
+            let g2 = [c2, c3]
+            let g3 = [c3, c4]
+            let g4 = [c4, c5]
             grads = [g1, g2, g3, g4]
         }else if(maxNum - minNum == 2) {
             let c1 = color1
             let c2 = color1.toColor(color2, percentage: 0.33)
             let c3 = color1.toColor(color2, percentage: 0.66)
             let c4 = color2
-            let g1 = [c1.cgColor, c2.cgColor]
-            let g2 = [c2.cgColor, c3.cgColor]
-            let g3 = [c3.cgColor, c4.cgColor]
+            let g1 = [c1, c2]
+            let g2 = [c2, c3]
+            let g3 = [c3, c4]
             grads = [g1, g2, g3]
         }else if(maxNum - minNum == 1) {
             let c1 = color1
             let c2 = color1.toColor(color2, percentage: 0.5)
             let c3 = color2
-            let g1 = [c1.cgColor, c2.cgColor]
-            let g2 = [c2.cgColor, c3.cgColor]
+            let g1 = [c1, c2]
+            let g2 = [c2, c3]
             grads = [g1, g2]
         } else {
             let c1 = color1
             let c2 = color2
-            let g1 = [c1.cgColor, c2.cgColor]
+            let g1 = [c1, c2]
             grads = [g1]
         }
         for (index, _) in selected {

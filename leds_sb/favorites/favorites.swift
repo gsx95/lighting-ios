@@ -20,4 +20,7 @@ class Favorite : NSObject {
     func getName() -> String{
         return name
     }
+
 }
+
+

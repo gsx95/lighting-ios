@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		140E2B63252F8EE6003A4D36 /* FilesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140E2B62252F8EE6003A4D36 /* FilesManager.swift */; };
 		14103BAF252122FB0031505F /* favorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14103BAE252122FB0031505F /* favorites.swift */; };
 		144976C62503C9A500CF9AFD /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144976C52503C9A500CF9AFD /* Request.swift */; };
 		145638CA2405B3FC00CDF45A /* KallaxLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145638C92405B3FC00CDF45A /* KallaxLayout.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		140E2B62252F8EE6003A4D36 /* FilesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesManager.swift; sourceTree = "<group>"; };
 		14103BAE252122FB0031505F /* favorites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = favorites.swift; sourceTree = "<group>"; };
 		144976C52503C9A500CF9AFD /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		145638C92405B3FC00CDF45A /* KallaxLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KallaxLayout.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				14BE681C24048E5F00737D24 /* LaunchScreen.storyboard */,
 				14BE681F24048E5F00737D24 /* Info.plist */,
 				14BE681724048E5C00737D24 /* leds_sb.xcdatamodeld */,
+				140E2B62252F8EE6003A4D36 /* FilesManager.swift */,
 			);
 			path = leds_sb;
 			sourceTree = "<group>";
@@ -273,7 +276,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Georg Schwarz";
 				TargetAttributes = {
 					14BE680A24048E5C00737D24 = {
@@ -358,6 +361,7 @@
 				14657670242121BC00FC6CF2 /* PickerMode.swift in Sources */,
 				1465767E242270BC00FC6CF2 /* GradientMode.swift in Sources */,
 				14670AC024091A2F006CA657 /* KallaxCell.swift in Sources */,
+				140E2B63252F8EE6003A4D36 /* FilesManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +442,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -498,6 +503,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

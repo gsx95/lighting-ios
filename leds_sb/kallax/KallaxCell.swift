@@ -19,6 +19,26 @@ class KallaxCell: UICollectionViewCell {
     var vs: CGPoint = CGPoint()
     var ve: CGPoint = CGPoint()
     
+    
+    class GradStrip {
+        var from: UIColor = UIColor.white
+        var to: UIColor = UIColor.white
+        init() {
+            
+        }
+    }
+    
+    //left -> right
+    var top = GradStrip()
+    var bottom = GradStrip()
+    //top -> bottom
+    var left = GradStrip()
+    var right = GradStrip()
+    
+    var orig_start = UIColor.white
+    var orig_end = UIColor.white
+    var orig_mode = "all"
+    
     func setCellSelected() {
         imageView.isHidden = false
     }
@@ -27,9 +47,20 @@ class KallaxCell: UICollectionViewCell {
         imageView.isHidden = true
     }
     
-    
-    
     func color(color: UIColor) {
+        top.from = color
+        top.to = color
+        bottom.from = color
+        bottom.to = color
+        left.from = color
+        left.to = color
+        right.from = color
+        right.to = color
+        
+        orig_start = color
+        orig_end = color
+        orig_mode = "all"
+        
         gradients[0].colors = [color.cgColor, color.cgColor]
         gradients[1].colors = [color.cgColor, color.cgColor]
         gradients[2].colors = [color.cgColor, color.cgColor]
@@ -38,11 +69,28 @@ class KallaxCell: UICollectionViewCell {
         ve = gradients[0].endPoint
     }
     
-    func gradientTopDown(colors: [CGColor]) {
-        gradients[0].colors = [colors[0], colors[0]]
-        gradients[1].colors = [colors[0], colors[1]]
-        gradients[2].colors = [colors[1], colors[1]]
-        gradients[3].colors = [colors[0], colors[1]]
+    func gradientTopDown(colors: [UIColor]) {
+    
+        let first = colors[0]
+        let second = colors[1]
+        
+        top.from = first
+        top.to = first
+        bottom.from = second
+        bottom.to = second
+        left.from = first
+        left.to = second
+        right.from = first
+        right.to = second
+        orig_start = first
+        orig_end = second
+        orig_mode = "top_down"
+        
+        
+        gradients[0].colors = [colors[0].cgColor, colors[0].cgColor]
+        gradients[1].colors = [colors[0].cgColor, colors[1].cgColor]
+        gradients[2].colors = [colors[1].cgColor, colors[1].cgColor]
+        gradients[3].colors = [colors[0].cgColor, colors[1].cgColor]
         
         gradients[0].startPoint = vs
         gradients[0].endPoint = ve
@@ -54,11 +102,27 @@ class KallaxCell: UICollectionViewCell {
         gradients[3].endPoint = ve
     }
     
-    func gradientLeftRight(colors: [CGColor]) {
-        gradients[0].colors = [colors[0], colors[1]]
-        gradients[1].colors = [colors[1], colors[1]]
-        gradients[2].colors = [colors[0], colors[1]]
-        gradients[3].colors = [colors[0], colors[0]]
+    func gradientLeftRight(colors: [UIColor]) {
+        
+        let first = colors[0]
+        let second = colors[1]
+        
+        top.from = first
+        top.to = second
+        bottom.from = first
+        bottom.to = second
+        left.from = first
+        left.to = first
+        right.from = second
+        right.to = second
+        orig_start = first
+        orig_end = second
+        orig_mode = "left_right"
+        
+        gradients[0].colors = [colors[0].cgColor, colors[1].cgColor]
+        gradients[1].colors = [colors[1].cgColor, colors[1].cgColor]
+        gradients[2].colors = [colors[0].cgColor, colors[1].cgColor]
+        gradients[3].colors = [colors[0].cgColor, colors[0].cgColor]
         
         gradients[0].startPoint = hs
         gradients[0].endPoint = he

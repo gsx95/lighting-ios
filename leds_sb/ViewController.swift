@@ -39,7 +39,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
 
     
-    var defaultHost = "http://192.168.2.101:7070"
+    var defaultHost = "http://192.168.2.101:8080"
     
     var kallax = Kallax()
     var colorViewDiff = CGFloat(0)
@@ -57,7 +57,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var gradMode = GradientMode.TopBottom
     var gradSelect = 1
     
-    let colorChangeInterval = 250
+    let colorChangeInterval = 10
+    
     var colorLastChanged = Date().currentTimeMillis()
     var lastColor: UIColor = UIColor.white
     
@@ -67,6 +68,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     let favoritesViewColorFull = UIColor.init(red: 0.1372, green: 0.1725 , blue: 0.2235, alpha: 1)
     let favoritesViewColorOpaque = UIColor.init(red: 0.1372, green: 0.1725 , blue: 0.2235, alpha: 0.2)
+    
+    enum DataType : String {
+        case FullColor
+        case KallaxColor
+    }
+    var currentData: Data? = nil
+    var currentDataType: DataType? = nil
+    
+    let filesManager = FilesManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +107,31 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         favoritesTable.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
         favoritesTable.delegate = self
         favoritesTable.dataSource = self
+        
+        var readData: Data?
+        
+        
+        readData = try? filesManager.read(fileNamed: "all_favorites.list")
+        if readData == nil {
+            filesManager.save(fileNamed: "all_favorites.list", data: "".data(using: .utf8)!)
+            readData = try? filesManager.read(fileNamed: "all_favorites.list")
+        }
+        let allFavNames = String(decoding: readData!, as: UTF8.self)
+        let favoriteNames = allFavNames.components(separatedBy: ";")
+        for favName in favoriteNames {
+            if(favName.replacingOccurrences(of: " ", with: "").isEmpty){
+                continue;
+            }
+            favorites.append(Favorite(name: favName))
+        }
+        
+        let dispatchQueue = DispatchQueue(label: "PingLeds", qos: .background)
+        dispatchQueue.async{
+            while true {
+                self.request.sendPing()
+                sleep(1)
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -163,7 +198,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func doColorChanging(color: UIColor) {
         switch currentMode {
         case .ALL:
-            request.sendFullColor(colorHex: color.toHex()!)
+            currentData = request.sendFullColor(colorHex: color.toHex()!)
+            currentDataType = .FullColor
+            break;
+        case .INDIV:
+            currentData = request.sendKallaxColors(kallax: kallax)
+            currentDataType = .KallaxColor
+            break;
+        case .GRAD:
+            currentData = request.sendKallaxColors(kallax: kallax)
+            currentDataType = .KallaxColor
             break;
         default:
             break;
@@ -229,13 +273,16 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     @IBAction func saveFavoritesBtnClicked(_ sender: Any) {
         let name = favoritesNameTextField.text!.replacingOccurrences(of: " ", with: "")
         if(name.isEmpty){
+            self.showToast(message: "Name cannot be empty", font: .systemFont(ofSize: 12.0))
             return;
         }
         for fav in favorites {
             if(fav.getName() == name) {
+                self.showToast(message: "Name already exists", font: .systemFont(ofSize: 12.0))
                 return;
             }
         }
+        print("|" + name + "|")
         favoritesNameTextField.resignFirstResponder()
         favoritesNameTextField.text = ""
         favoritesView.backgroundColor = favoritesViewColorFull
@@ -245,6 +292,17 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         self.favoritesTable.beginUpdates()
         self.favoritesTable.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .automatic)
         self.favoritesTable.endUpdates()
+        
+
+        var allFavs = "";
+        for fav in favorites {
+            allFavs += fav.getName() + ";";
+        }
+        allFavs = String(allFavs.dropLast())
+        
+        filesManager.save(fileNamed: "favs_" + name + ".data", data: currentData!)
+        filesManager.save(fileNamed: "favs_" + name + ".type", data: currentDataType!.rawValue.data(using: .utf8)!)
+        filesManager.save(fileNamed: "all_favorites.list", data: allFavs.data(using: .utf8)!)
     }
     
     var favorites: [Favorite] = []
@@ -264,18 +322,39 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     // method to run when table view cell is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("You tapped cell number \(indexPath.row).")
+        let favName = favorites[indexPath.row].getName()
+        let data = try? filesManager.read(fileNamed: "favs_" + favName + ".data")
+        let dataType = try? String(decoding: filesManager.read(fileNamed: "favs_" + favName + ".type")!, as: UTF8.self)
+        currentData = data
+        currentDataType = dataType.map { ViewController.DataType(rawValue: $0) }!!
+        setCurrentDataColor()
+        
+    }
+    
+    func setCurrentDataColor() {
+        let json = try? JSONSerialization.jsonObject(with: currentData!, options: []) as? [String : Any]
+        if currentDataType == .FullColor {
+            kallax.colorCellsAll(color: UIColor.fromHex(hex: json!["colorHex"] as! String)!)
+        } else {
+            kallax.colorCells(encoded: currentData!)
+        }
     }
 
         // this method handles row deletion
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // remove the item from the data model
+            let name = favorites[indexPath.row].getName()
             favorites.remove(at: indexPath.row)
-            // delete the table view row
             favoritesTable.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Not used in our example, but if you were adding a new row, this is where you would do it.
+            filesManager.delete(fileNamed: "favs_" + name + ".data")
+            filesManager.delete(fileNamed: "favs_" + name + ".type")
+            
+            var allFavs = "";
+            for fav in favorites {
+                allFavs += fav.getName() + ";";
+            }
+            allFavs = String(allFavs.dropLast())
+            filesManager.save(fileNamed: "all_favorites.list", data: allFavs.data(using: .utf8)!)
         }
     }
     
@@ -421,33 +500,60 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
 extension UIColor {
     func toHex() -> String? {
-        let components = cgColor.components
-        var r: CGFloat = components?[0] ?? 0.0
-        var g: CGFloat = components?[1] ?? 0.0
-        var b: CGFloat = components?[2] ?? 0.0
-        
-        func bounds(val: CGFloat) -> CGFloat {
-            if(val < 0) {
-                return 0
-            }
-            if(val > 1) {
-                return 1
-            }
-            return val
-        }
-        
-        r = bounds(val: r)
-        g = bounds(val: g)
-        b = bounds(val: b)
-        
+        let colorRef = cgColor.components
+        let r = colorRef?[0] ?? 0
+        let g = colorRef?[1] ?? 0
+        let b = ((colorRef?.count ?? 0) > 2 ? colorRef?[2] : g) ?? 0
+        let a = cgColor.alpha
 
-        let hexString = String.init(format: "%02lX%02lX%02lX", lroundf(Float(g * 255)), lroundf(Float(r * 255)), lroundf(Float(b * 255)))
-        print(hexString)
-        return hexString
+        var color = String(
+            format: "%02lX%02lX%02lX",
+            lroundf(Float(g * 255)),
+            lroundf(Float(r * 255)),      // led strip takes GRB, not RGB !
+            lroundf(Float(b * 255))
+        )
+
+        if a < 1 {
+            color += String(format: "%02lX", lroundf(Float(a)))
+        }
+        return color
     }
     
+    static func fromHex(hex: String) -> UIColor? {
+        let r, g, b: CGFloat
+        let scanner = Scanner(string: hex)
+        var hexNumber: UInt64 = 0
+        
+        if scanner.scanHexInt64(&hexNumber) {
+            g = CGFloat((hexNumber & 0xff0000) >> 16) / 255
+            r = CGFloat((hexNumber & 0x00ff00) >> 8) / 255
+            b = CGFloat(hexNumber & 0x0000ff) / 255
+
+            return UIColor(red: r, green: g, blue: b, alpha: 1)
+        }
+        return nil
+    }
 }
 
+extension UIViewController {
+    func showToast(message : String, font : UIFont) {
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 150, height: 35))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
+             toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    }
+}
 
 extension Date {
     func currentTimeMillis() -> Int64 {

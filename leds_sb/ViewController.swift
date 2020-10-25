@@ -109,6 +109,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         favoritesTable.dataSource = self
         
         var readData: Data?
+        updateState()
         
         
         readData = try? filesManager.read(fileNamed: "all_favorites.list")
@@ -125,13 +126,27 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             favorites.append(Favorite(name: favName))
         }
         
-        let dispatchQueue = DispatchQueue(label: "PingLeds", qos: .background)
+        let dispatchQueue = DispatchQueue(label: "updateState", qos: .background)
         dispatchQueue.async{
             while true {
-                self.request.sendPing()
+                self.updateState()
                 sleep(1)
             }
         }
+    }
+    
+    func updateState() {
+        request.isOn(callback: { (on) in
+            DispatchQueue.main.async {
+                self.kallaxOn = on;
+                if (self.kallaxOn) {
+                    self.btnOnOff.setTitle("Turn Off", for: .normal)
+                } else {
+                    self.kallax.colorCellsAll(color: UIColor.black)
+                    self.btnOnOff.setTitle("Turn On", for: .normal)
+                }
+            }
+        });
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -282,7 +297,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 return;
             }
         }
-        print("|" + name + "|")
         favoritesNameTextField.resignFirstResponder()
         favoritesNameTextField.text = ""
         favoritesView.backgroundColor = favoritesViewColorFull
@@ -335,12 +349,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         let json = try? JSONSerialization.jsonObject(with: currentData!, options: []) as? [String : Any]
         if currentDataType == .FullColor {
             kallax.colorCellsAll(color: UIColor.fromHex(hex: json!["colorHex"] as! String)!)
+            request.sendKallaxColorRaw(data: currentData!)
         } else {
             kallax.colorCells(encoded: currentData!)
+            request.sendFullColorRaw(data: currentData!)
         }
     }
 
-        // this method handles row deletion
+    // this method handles row deletion
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let name = favorites[indexPath.row].getName()
@@ -393,13 +409,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
      @IBAction func onOffClicked(_ sender: Any) {
         if(kallaxOn) {
-            kallax.colorCellsAll(color: UIColor.white)
-            request.sendOn()
-            btnOnOff.setTitle("Turn Off", for: .normal)
-        }else {
-            request.sendOff()
             kallax.colorCellsAll(color: UIColor.black)
+            request.sendOff()
             btnOnOff.setTitle("Turn On", for: .normal)
+        }else {
+            request.sendOn()
+            kallax.colorCellsAll(color: UIColor.white)
+            btnOnOff.setTitle("Turn Off", for: .normal)
         }
         kallaxOn = !kallaxOn
      }
@@ -558,5 +574,18 @@ extension UIViewController {
 extension Date {
     func currentTimeMillis() -> Int64 {
         return Int64(self.timeIntervalSince1970 * 1000)
+    }
+}
+
+extension String {
+    var toBool: Bool? {
+        switch self.lowercased() {
+        case "true", "t", "yes", "y", "1":
+            return true
+        case "false", "f", "no", "n", "0":
+            return false
+        default:
+            return nil
+        }
     }
 }

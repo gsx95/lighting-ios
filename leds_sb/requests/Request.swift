@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 class Request: NSObject {
+    
+    typealias ResponseCallback = (String)  -> Void
+    typealias IsOnCallback = (Bool)  -> Void
 
     var host = ""
     
@@ -17,16 +20,18 @@ class Request: NSObject {
         host = newHost
     }
     
+    func isOn(callback: @escaping IsOnCallback) {
+        sendGetRequest(path: "isOn", callback: { (response) in
+            let on = response.toBool
+            callback(on!)
+        });
+    }
     func sendOff() {
         sendApiCall(path: "off", data: nil)
     }
     
     func sendOn() {
         sendApiCall(path: "on", data: nil)
-    }
-
-    func sendPing() {
-        sendApiCall(path: "ping", data: nil, method: "GET")
     }
     
     func getRow(cell: KallaxCell) -> Int {
@@ -124,6 +129,32 @@ class Request: NSObject {
         ]
         sendApiCall(path: "set", data: data)
         return try? JSONSerialization.data(withJSONObject: data)
+    }
+    
+    func sendFullColorRaw(data: Data) {
+        sendApiCall(path: "set", data: nil, method: "POST", byteData: data)
+    }
+    
+    func sendKallaxColorRaw(data: Data) {
+        sendApiCall(path: "shelf", data: nil, method: "POST", byteData: data)
+    }
+    
+    func sendGetRequest(path: String, callback: @escaping ResponseCallback) {
+        
+        var request = URLRequest(url: URL(string: host + "/" + path)!)
+        request.httpMethod = "GET"
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error took place \(error)")
+                return
+            }
+            
+            if let data = data, let dataString = String(data: data, encoding: .utf8) {
+                callback(dataString)
+            }
+            
+        }
+        task.resume()
     }
     
     func sendApiCall(path:String, data: [String:Any]?, method: String = "POST", byteData: Data? = nil) {

@@ -21,7 +21,7 @@ DerivedData/
 !default.mode2v3
 *.perspectivev3
 !default.perspectivev3
-
+leds_sb/Config.swift
 ## Obj-C/Swift specific
 *.hmap
 

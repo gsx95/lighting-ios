@@ -15,6 +15,7 @@
 		1465767E242270BC00FC6CF2 /* GradientMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1465767D242270BC00FC6CF2 /* GradientMode.swift */; };
 		14670ABC24082443006CA657 /* Kallax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14670ABB24082443006CA657 /* Kallax.swift */; };
 		14670AC024091A2F006CA657 /* KallaxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14670ABF24091A2F006CA657 /* KallaxCell.swift */; };
+		1469F7B52556AB4100DE385A /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1469F7B42556AB4100DE385A /* Config.swift */; };
 		14BE680F24048E5C00737D24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE680E24048E5C00737D24 /* AppDelegate.swift */; };
 		14BE681124048E5C00737D24 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE681024048E5C00737D24 /* SceneDelegate.swift */; };
 		14BE681324048E5C00737D24 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE681224048E5C00737D24 /* ViewController.swift */; };
@@ -58,6 +59,7 @@
 		1465767D242270BC00FC6CF2 /* GradientMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientMode.swift; sourceTree = "<group>"; };
 		14670ABB24082443006CA657 /* Kallax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kallax.swift; sourceTree = "<group>"; };
 		14670ABF24091A2F006CA657 /* KallaxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KallaxCell.swift; sourceTree = "<group>"; };
+		1469F7B42556AB4100DE385A /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		14BE680B24048E5C00737D24 /* leds_sb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = leds_sb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14BE680E24048E5C00737D24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14BE681024048E5C00737D24 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				14BE681F24048E5F00737D24 /* Info.plist */,
 				14BE681724048E5C00737D24 /* leds_sb.xcdatamodeld */,
 				140E2B62252F8EE6003A4D36 /* FilesManager.swift */,
+				1469F7B42556AB4100DE385A /* Config.swift */,
 			);
 			path = leds_sb;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 				14BE681924048E5C00737D24 /* leds_sb.xcdatamodeld in Sources */,
 				14F677FA25064B2D000F4A7B /* ColorfulEntity.swift in Sources */,
 				14BE681324048E5C00737D24 /* ViewController.swift in Sources */,
+				1469F7B52556AB4100DE385A /* Config.swift in Sources */,
 				14BE680F24048E5C00737D24 /* AppDelegate.swift in Sources */,
 				14F677FD25064B2D000F4A7B /* ColorMapView.swift in Sources */,
 				145638CA2405B3FC00CDF45A /* KallaxLayout.swift in Sources */,

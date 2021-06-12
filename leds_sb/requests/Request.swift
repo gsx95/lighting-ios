@@ -21,17 +21,23 @@ class Request: NSObject {
     }
     
     func isOn(callback: @escaping IsOnCallback) {
-        sendGetRequest(path: "isOn", callback: { (response) in
+        let id = UUID().uuidString;
+        sendGetRequest(requestId: id, path: "isOn", callback: { (response) in
+            Logger.log(type: "state_update", requestId: id, message: "get isOn " + response, body: "")
             let on = response.toBool
             callback(on!)
         });
     }
     func sendOff() {
-        sendApiCall(path: "off", data: nil)
+        let id = UUID().uuidString;
+        Logger.log(type: "send_lights", requestId: id, message: "off", body: "")
+        sendApiCall(requestId: id, path: "off", data: nil)
     }
     
     func sendOn() {
-        sendApiCall(path: "on", data: nil)
+        let id = UUID().uuidString;
+        Logger.log(type: "send_lights", requestId: id, message: "on", body: "")
+        sendApiCall(requestId: id, path: "on", data: nil)
     }
     
     func getRow(cell: KallaxCell) -> Int {
@@ -115,7 +121,9 @@ class Request: NSObject {
         do {
             let jsonData = try jsonEncoder.encode(shelfData)
             let json = String(data: jsonData, encoding: String.Encoding.utf8)
-            sendApiCall(path: "shelf", data: nil, method: "POST", byteData: json?.data(using: .utf8))
+            let id = UUID().uuidString;
+            Logger.log(type: "send_lights", requestId: id, message: "send kallax colors", body: json!)
+            sendApiCall(requestId: id, path: "shelf", data: nil, method: "POST", byteData: json?.data(using: .utf8))
             return json?.data(using: .utf8)
         }catch{
             print("failed json encoding")
@@ -127,21 +135,28 @@ class Request: NSObject {
         let data: [String: Any] = [
             "colorHex": colorHex,
         ]
-        sendApiCall(path: "set", data: data)
-        return try? JSONSerialization.data(withJSONObject: data)
+        let id = UUID().uuidString;
+        let json = try? JSONSerialization.data(withJSONObject: data)
+        Logger.log(type: "send_lights", requestId: id, message: "send full color", body: String(data: json!, encoding: .utf8)!)
+        sendApiCall(requestId: id, path: "set", data: data)
+        return json
     }
     
     func sendFullColorRaw(data: Data) {
-        sendApiCall(path: "set", data: nil, method: "POST", byteData: data)
+        let id = UUID().uuidString;
+        Logger.log(type: "send_lights", requestId: id, message: "send full color raw", body: String(data: data, encoding: .utf8)!)
+        sendApiCall(requestId: id, path: "set", data: nil, method: "POST", byteData: data)
     }
     
     func sendKallaxColorRaw(data: Data) {
-        sendApiCall(path: "shelf", data: nil, method: "POST", byteData: data)
+        let id = UUID().uuidString;
+        Logger.log(type: "send_lights", requestId: id, message: "send kallax colors raw", body: String(data: data, encoding: .utf8)!)
+        sendApiCall(requestId: id, path: "shelf", data: nil, method: "POST", byteData: data)
     }
     
-    func sendGetRequest(path: String, callback: @escaping ResponseCallback) {
+    func sendGetRequest(requestId: String, path: String, callback: @escaping ResponseCallback) {
         
-        var request = URLRequest(url: URL(string: host + "/" + path)!)
+        var request = URLRequest(url: URL(string: host + "/" + path + "?reqId=" + requestId)!)
         request.httpMethod = "GET"
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
@@ -157,8 +172,8 @@ class Request: NSObject {
         task.resume()
     }
     
-    func sendApiCall(path:String, data: [String:Any]?, method: String = "POST", byteData: Data? = nil) {
-        let url = URL(string: host + "/" + path)!
+    func sendApiCall(requestId: String,  path:String, data: [String:Any]?, method: String = "POST", byteData: Data? = nil) {
+        let url = URL(string: host + "/" + path + "?reqId=" + requestId)!
         var request = URLRequest(url: url)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = method

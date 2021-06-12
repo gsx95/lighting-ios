@@ -16,6 +16,7 @@
 		14670ABC24082443006CA657 /* Kallax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14670ABB24082443006CA657 /* Kallax.swift */; };
 		14670AC024091A2F006CA657 /* KallaxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14670ABF24091A2F006CA657 /* KallaxCell.swift */; };
 		1469F7B52556AB4100DE385A /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1469F7B42556AB4100DE385A /* Config.swift */; };
+		1469F7BB2556AC7600DE385A /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1469F7BA2556AC7600DE385A /* Logger.swift */; };
 		14BE680F24048E5C00737D24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE680E24048E5C00737D24 /* AppDelegate.swift */; };
 		14BE681124048E5C00737D24 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE681024048E5C00737D24 /* SceneDelegate.swift */; };
 		14BE681324048E5C00737D24 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE681224048E5C00737D24 /* ViewController.swift */; };
@@ -60,6 +61,7 @@
 		14670ABB24082443006CA657 /* Kallax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kallax.swift; sourceTree = "<group>"; };
 		14670ABF24091A2F006CA657 /* KallaxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KallaxCell.swift; sourceTree = "<group>"; };
 		1469F7B42556AB4100DE385A /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		1469F7BA2556AC7600DE385A /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		14BE680B24048E5C00737D24 /* leds_sb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = leds_sb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14BE680E24048E5C00737D24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		14BE681024048E5C00737D24 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -156,6 +158,14 @@
 			path = kallax;
 			sourceTree = "<group>";
 		};
+		1469F7B92556AC6A00DE385A /* log */ = {
+			isa = PBXGroup;
+			children = (
+				1469F7BA2556AC7600DE385A /* Logger.swift */,
+			);
+			path = log;
+			sourceTree = "<group>";
+		};
 		14BE680224048E5C00737D24 = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +189,7 @@
 		14BE680D24048E5C00737D24 /* leds_sb */ = {
 			isa = PBXGroup;
 			children = (
+				1469F7B92556AC6A00DE385A /* log */,
 				14103BAD252122DF0031505F /* favorites */,
 				144976C42503C98600CF9AFD /* requests */,
 				1465767C2422709800FC6CF2 /* modes */,
@@ -362,6 +373,7 @@
 				14F677FC25064B2D000F4A7B /* ColorMapCursor.swift in Sources */,
 				14103BAF252122FB0031505F /* favorites.swift in Sources */,
 				14BE681124048E5C00737D24 /* SceneDelegate.swift in Sources */,
+				1469F7BB2556AC7600DE385A /* Logger.swift in Sources */,
 				14657670242121BC00FC6CF2 /* PickerMode.swift in Sources */,
 				1465767E242270BC00FC6CF2 /* GradientMode.swift in Sources */,
 				14670AC024091A2F006CA657 /* KallaxCell.swift in Sources */,

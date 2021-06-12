@@ -57,7 +57,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     var gradMode = GradientMode.TopBottom
     var gradSelect = 1
     
-    let colorChangeInterval = 10
+    let colorChangeInterval = 200
     
     var colorLastChanged = Date().currentTimeMillis()
     var lastColor: UIColor = UIColor.white
